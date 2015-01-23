@@ -1,0 +1,27 @@
+﻿context.Choices.Add(new Choice {CorrectOption=true,QuestionId=1,Option="26" });
+            context.Choices.Add(new Choice { CorrectOption = false, QuestionId = 1, Option = "25" });
+            context.Choices.Add(new Choice { CorrectOption = false, QuestionId = 1, Option = "24" });
+            context.Choices.Add(new Choice { CorrectOption = false, QuestionId = 1, Option = "23" });
+
+            context.Choices.Add(new Choice { CorrectOption = false, QuestionId = 2, Option = "4" });
+            context.Choices.Add(new Choice { CorrectOption = false, QuestionId = 2, Option = "25" });
+            context.Choices.Add(new Choice { CorrectOption = false, QuestionId = 2, Option = "24" });
+            context.Choices.Add(new Choice { CorrectOption = false, QuestionId = 2, Option = "23" });
+
+
+            context.Exams.Add(new Exam {Code="70-483",Duration=TimeSpan.Zero,IsNegativeMarkingAllowed=false,MarksToPass=75,MaximumMarks=100 });
+            context.Exams.Add(new Exam { Code = "70-484", Duration = TimeSpan.Zero, IsNegativeMarkingAllowed = false, MarksToPass = 75, MaximumMarks = 100 });
+
+            context.QuestionMaps.Add(new QuestionMap { ExamId=1,QuestionId=1});
+            //  This method will be called after migrating to the latest version.
+
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  to avoid creating duplicate seed data. E.g.
+            //
+            //    context.People.AddOrUpdate(
+            //      p => p.FullName,
+            //      new Person { FullName = "Andrew Peters" },
+            //      new Person { FullName = "Brice Lambson" },
+            //      new Person { FullName = "Rowan Miller" }
+            //    );
+            //
