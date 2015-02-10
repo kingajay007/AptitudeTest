@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Aptitude.Controllers
 {
+    [Authorize]
     public class ExamController : Controller
     {
         private ApplicationDbContext context = new ApplicationDbContext();
@@ -71,13 +72,96 @@ namespace Aptitude.Controllers
         //Add questions to exam
         public ActionResult AddQuestionToExam()
         {
-            var questions = context.Questions;
-            List<Question> selectQuestions = new List<Question>();
-            foreach (var item in questions)
+            QuestionMap questionMap = new Models.QuestionMap();
+            //if (id.HasValue && id > 0)
+            //{
+            //    questionMap.Exam = context.Exams.Find(id.GetValueOrDefault());
+            //    questionMap.ExamId = id.GetValueOrDefault();
+            //    ViewBag.ExamId = id;
+            //}
+            //else
+            questionMap.Exams = new List<SelectListItem>();
+            questionMap.Questions = new List<SelectListItem>();
+
+            List<Exam> ExamList = context.Exams.ToList();
+            foreach (Exam exam in ExamList)
             {
-                selectQuestions.Add(item);
+                questionMap.Exams.Add(new SelectListItem() {Text=exam.Code,Value=exam.Id.ToString() });
             }
-            return View(selectQuestions);
+
+            List<Question> QuestionList = context.Questions.ToList();
+            foreach (Question question in QuestionList)
+            {
+                questionMap.Questions.Add(new SelectListItem() {Text=question.Query,Value=question.Id.ToString() });
+            }
+
+            
+            //var questions = context.Questions;
+            //List<Question> selectQuestions = new List<Question>();
+            //foreach (var item in questions)
+            //{
+            //    selectQuestions.Add(item);
+            //}
+            return View(questionMap);
+        }
+
+        [HttpPost]
+        public ActionResult AddQuestionToExam(QuestionMap questioMap)
+        {
+
+            try
+            {
+                if (!context.QuestionMaps.Any(x => x.QuestionId == questioMap.QuestionId && x.ExamId == questioMap.ExamId))
+                {
+                    context.QuestionMaps.Add(new QuestionMap { ExamId = questioMap.ExamId, QuestionId = questioMap.QuestionId });
+                }
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+
+                return View("AddQuestionToExam");
+            }
+        }
+
+        public ActionResult AddQuestion(int Id)
+        {
+
+            List<Question> AllQuestions = context.Questions.ToList();
+            var AlreadyPresentQuestions = context.QuestionMaps.Where(x=>x.ExamId==Id);
+            List<Question> QuestionList = new List<Models.Question>();
+            foreach (Question q in AllQuestions)
+            {
+                if (!AlreadyPresentQuestions.Any(x=>x.QuestionId==q.Id))
+                {
+                    QuestionList.Add(q);
+                }
+            }
+            return View(QuestionList);
+        }
+
+        [HttpPost]
+        public ActionResult AddQuestion(int Id, List<Question> QuestionList)
+        {
+            try
+            {
+                foreach (var item in QuestionList)
+                {
+                    if (item.IsIncluded)
+                    {
+                        context.QuestionMaps.Add(new QuestionMap { ExamId=Id,QuestionId=item.Id});
+                    }
+                }
+                context.SaveChanges();
+                return View("Index",context.Exams);
+            }
+            catch (Exception)
+            {
+                
+               return View("AddQuestion",QuestionList);
+            }
+            
         }
     }
 }

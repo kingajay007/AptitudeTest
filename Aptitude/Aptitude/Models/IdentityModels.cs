@@ -34,5 +34,7 @@ namespace Aptitude.Models
         public DbSet<QuestionMap> QuestionMaps { get; set; }
         public DbSet<Choice> Choices { get; set; }
         public DbSet<Exam> Exams { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<QuestionCategory> QuestionCategories { get; set; }
     }
 }

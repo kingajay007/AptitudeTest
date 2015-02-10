@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Aptitude.Models.Question>
+@{
+    ViewBag.Title = "Qbank";
+    int count = 0;
+}
+
+<h2>Qbank</h2>
+
+<ol class="">
+    @foreach (var item in Model)
+    {
+        count = count + 1;
+        
+            <li class="list-group-item">
+
+                
+               <text>@count.ToString() .</text> @Html.DisplayFor(model => item.Query)
+
+                <br />
+                <br />
+                <div>
+                    <ol>
+                        @foreach (var choiceItem in item.Choice)
+                        {
+                        <li>
+                            <i>
+                                @Html.DisplayFor(model => choiceItem.Option)
+                            </i>
+                        </li>
+                        }
+                    </ol>
+                    
+                    <ul>
+                        <text><b>Correct Option(s)</b></text>
+                        @foreach (var choiceItem in item.Choice)
+                        {
+                            if (choiceItem.CorrectOption)
+                            {
+                        <li style="color:darkgreen">
+                            <b>
+                                @Html.DisplayFor(model => choiceItem.Option)
+                            </b>
+                        </li>
+
+                            }
+                        }
+                    </ul>
+                </div>
+            </li>
+       
+
+
+
+    }
+</ol>
+

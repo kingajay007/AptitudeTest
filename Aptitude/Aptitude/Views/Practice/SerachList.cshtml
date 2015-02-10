@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Aptitude.Models.Question>
+
+
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div >
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Query)
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Query)
+                </td>
+
+
+            </tr>
+        }
+
+    </table>
+</div>

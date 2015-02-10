@@ -15,6 +15,8 @@ namespace Aptitude.Models
         [Display(Name = "Code")]
         public String Code { get; set; }
         [Required]
+        public String Name { get; set; }
+        [Required]
         public TimeSpan Duration { get; set; }
         [Required]
         [Display(Name = "Maximum Marks")]

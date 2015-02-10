@@ -1,0 +1,41 @@
+﻿@model Aptitude.Models.Question
+@{
+    ViewBag.Title = "Search";
+}
+
+
+
+<h2>Search</h2>
+@using (Html.BeginForm())
+{
+    
+    <div class="form-group">
+       
+        <div class="col-md-offset-2 col-md-10">
+            @*<input type="text" name="txtSearch" id="txtSearch" />*@
+            @Html.TextBoxFor(model => model.Tags,"", htmlAttributes: new { @id = "txtSearch" ,@class="form-control"})
+            <input type="submit" id="btnSearch" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div id="QuestionList">
+
+</div>
+
+@Ajax.ActionLink("Search List", "SerachList", new AjaxOptions { UpdateTargetId = "QuestionList", InsertionMode = InsertionMode.Replace, HttpMethod = "Get" })
+
+
+@*<div id="result"></div>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready($("#btnSearch").click((function () {
+            var txtvalue = $('#txtSearch').val();
+            $('#result').load('/Practice/SerachList?searchString=html');
+        })));
+
+        
+
+    </script>*@
+}
+ 
